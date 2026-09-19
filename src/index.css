@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    background-color: #FAF6EE;
+    color: #2E1E14;
+  }
+}
+
+/* Custom scrollbar for horizontal category filter */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Natural textured pattern overlay (subtle warm paper / fruit shop texture) */
+.bg-subtle-pattern {
+  background-color: #FAF6EE;
+  background-image: radial-gradient(#EBDDC0 0.75px, transparent 0.75px), radial-gradient(#EBDDC0 0.75px, #FAF6EE 0.75px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
+/* Menu board banner gradient */
+.menu-board-gradient {
+  background: linear-gradient(135deg, #FEF08A 0%, #FDE047 50%, #FACC15 100%);
+}
+
+.strawberry-gradient {
+  background: linear-gradient(135deg, #E5202C 0%, #C91420 100%);
+}
+
+.leaf-gradient {
+  background: linear-gradient(135deg, #2C8B33 0%, #1E6B24 100%);
+}
