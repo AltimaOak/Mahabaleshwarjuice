@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Phone, Clock, MapPin, Navigation, BookOpen } from 'lucide-react';
 import { SwiggyLogo, ZomatoLogo } from '../components/PartnerLogos';
 import { STORE_LOCATIONS } from '../data/storeLocations';
+import { DELIVERY_LINKS, PRICING_DEMAND_NOTE } from '../data/deliveryConfig';
 
 export const Home: React.FC = () => {
   return (
@@ -70,24 +71,15 @@ export const Home: React.FC = () => {
               </p>
 
               {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2 w-full sm:w-auto">
+              <div className="flex items-center justify-center pt-2">
                 {/* Red Button: View Menu & Order */}
                 <Link
                   to="/products"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-[#B91C1C] hover:bg-[#991B1B] text-white font-bold text-xs sm:text-sm shadow-sm transition-colors"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-[#B91C1C] hover:bg-[#991B1B] text-white font-bold text-sm sm:text-base shadow-sm hover:shadow transition-all"
                 >
                   <BookOpen className="w-4 h-4" />
                   <span>View Menu & Order (Dine - Home)</span>
                 </Link>
-
-                {/* White Button: Call */}
-                <a
-                  href="tel:9967997522"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-white hover:bg-cream-50 border border-cream-300 text-[#1C120B] font-bold text-xs sm:text-sm shadow-2xs transition-colors"
-                >
-                  <Phone className="w-4 h-4 text-[#2C8B33] fill-[#2C8B33]" />
-                  <span>Call 9967997522</span>
-                </a>
               </div>
 
               {/* Opening Hours */}
@@ -144,11 +136,12 @@ export const Home: React.FC = () => {
           <div className="flex items-center justify-center gap-6 sm:gap-12">
             {/* Swiggy */}
             <a
-              href="https://www.swiggy.com"
+              href={DELIVERY_LINKS.swiggy}
               target="_blank"
               rel="noopener noreferrer"
               className="hover:opacity-85 transition-opacity px-2 flex items-center"
               aria-label="Order on Swiggy"
+              title="Order Mahabaleshwar Juice on Swiggy"
             >
               <SwiggyLogo className="h-7 sm:h-8 w-auto" />
             </a>
@@ -158,15 +151,20 @@ export const Home: React.FC = () => {
 
             {/* Zomato */}
             <a
-              href="https://www.zomato.com"
+              href={DELIVERY_LINKS.zomato}
               target="_blank"
               rel="noopener noreferrer"
               className="hover:opacity-85 transition-opacity px-2 flex items-center"
               aria-label="Order on Zomato"
+              title="Order Mahabaleshwar Juice on Zomato"
             >
               <ZomatoLogo className="h-6 sm:h-7 w-auto" />
             </a>
           </div>
+
+          <p className="text-[11px] text-earth-500 font-medium mt-3 pt-2.5 border-t border-cream-200">
+            * {PRICING_DEMAND_NOTE}
+          </p>
         </div>
       </section>
 

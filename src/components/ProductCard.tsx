@@ -143,6 +143,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ item, onOrderClick }) 
               <label className="flex items-center justify-between text-xs text-earth-700 bg-cream-50 p-2 rounded-lg border border-cream-200 cursor-pointer hover:bg-cream-100">
                 <span className="flex items-center gap-1.5 font-medium">
                   <input
+                    id={`ice-cream-addon-${item.id}`}
+                    name={`ice-cream-addon-${item.id}`}
                     type="checkbox"
                     checked={withIceCream}
                     onChange={(e) => setWithIceCream(e.target.checked)}

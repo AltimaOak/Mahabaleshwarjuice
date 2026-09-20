@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, Clock, MapPin } from 'lucide-react';
+import { Clock, MapPin } from 'lucide-react';
 import { SwiggyLogo, ZomatoLogo } from './PartnerLogos';
 import { InstagramIcon, FacebookIcon } from './SocialIcons';
 import { STORE_LOCATIONS } from '../data/storeLocations';
+import { DELIVERY_LINKS } from '../data/deliveryConfig';
 
 export const Footer: React.FC = () => {
   return (
@@ -110,20 +111,11 @@ export const Footer: React.FC = () => {
             </div>
           </div>
 
-          {/* 4. Contact & Online Order (3 cols) */}
+          {/* 4. Online Delivery & Timings (3 cols) */}
           <div className="lg:col-span-3 flex flex-col items-start lg:items-end space-y-2 text-left lg:text-right">
             <h4 className="text-xs font-heading font-extrabold uppercase tracking-wider text-earth-900">
-              Counter & Delivery
+              Online Delivery
             </h4>
-
-            {/* Red Call Button */}
-            <a
-              href="tel:9967997522"
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-[#B91C1C] hover:bg-[#991B1B] text-white font-bold text-xs shadow-xs transition-colors"
-            >
-              <Phone className="w-3 h-3 fill-white" />
-              <span>Call: 9967997522</span>
-            </a>
 
             {/* Timings */}
             <div className="flex items-center gap-1.5 text-xs font-bold text-earth-900">
@@ -134,22 +126,22 @@ export const Footer: React.FC = () => {
             {/* Delivery Partners Box */}
             <div className="flex items-center gap-3 px-3 py-1.5 bg-white rounded-xl border border-cream-300 shadow-2xs">
               <a
-                href="https://www.swiggy.com"
+                href={DELIVERY_LINKS.swiggy}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:opacity-80 transition-opacity flex items-center"
-                title="Order on Swiggy"
+                title="Order Mahabaleshwar Juice on Swiggy"
                 aria-label="Order on Swiggy"
               >
                 <SwiggyLogo className="h-5 sm:h-6 w-auto" />
               </a>
               <div className="h-4 w-px bg-cream-300" />
               <a
-                href="https://www.zomato.com"
+                href={DELIVERY_LINKS.zomato}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:opacity-80 transition-opacity flex items-center"
-                title="Order on Zomato"
+                title="Order Mahabaleshwar Juice on Zomato"
                 aria-label="Order on Zomato"
               >
                 <ZomatoLogo className="h-4 sm:h-5 w-auto" />

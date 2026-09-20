@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Phone, BookOpen } from 'lucide-react';
+import { Menu, X, BookOpen } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -62,15 +62,6 @@ export const Navbar: React.FC = () => {
 
           {/* Desktop Right Action Buttons */}
           <div className="hidden md:flex items-center space-x-3">
-            {/* Phone Pill Button (White with Green Border & Text) */}
-            <a
-              href="tel:9967997522"
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-bold text-[#2C8B33] bg-white border border-[#2C8B33] hover:bg-leaf-50 transition-colors shadow-2xs"
-              title="Call Mahabaleshwar Juice Center"
-            >
-              <Phone className="w-3.5 h-3.5 text-[#2C8B33] fill-[#2C8B33]" />
-              <span>9967997522</span>
-            </a>
 
             {/* Order Now Button (Red Pill Button) */}
             <Link
@@ -82,17 +73,9 @@ export const Navbar: React.FC = () => {
             </Link>
           </div>
 
+
           {/* Mobile Right Controls */}
           <div className="flex items-center gap-2 md:hidden">
-            <a
-              href="tel:9967997522"
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-bold text-[#2C8B33] bg-white border border-[#2C8B33]"
-              aria-label="Call store"
-            >
-              <Phone className="w-3.5 h-3.5 text-[#2C8B33] fill-[#2C8B33]" />
-              <span>Call</span>
-            </a>
-
             <button
               onClick={() => setIsOpen(!isOpen)}
               type="button"

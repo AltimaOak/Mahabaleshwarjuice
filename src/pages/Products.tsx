@@ -4,8 +4,9 @@ import type { CategoryId, MenuItem } from '../data/menuData';
 import { MENU_ITEMS } from '../data/menuData';
 import { CategoryFilter } from '../components/CategoryFilter';
 import { QuickOrderModal } from '../components/QuickOrderModal';
-import { Phone, Info } from 'lucide-react';
+import { Info } from 'lucide-react';
 import { SwiggyEmblem } from '../components/PartnerLogos';
+import { DELIVERY_LINKS, PRICING_DEMAND_NOTE } from '../data/deliveryConfig';
 
 interface CategoryNotice {
   title: string;
@@ -189,13 +190,6 @@ export const Products: React.FC = () => {
                 Freshly prepared at Kolbad, Vasant Vihar & Mulund West
               </p>
             </div>
-            <a
-              href="tel:9967997522"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-leaf-600 hover:bg-leaf-700 text-white text-xs font-bold transition-colors shrink-0"
-            >
-              <Phone className="w-3.5 h-3.5" />
-              <span>Call Counter</span>
-            </a>
           </div>
 
           {/* ========================================================
@@ -389,40 +383,38 @@ export const Products: React.FC = () => {
         </div>
       )}
 
-      {/* Simple Takeaway & Online Banner */}
+      {/* Online Delivery Banner */}
       <div className="bg-cream-200 rounded-xl p-5 border border-cream-300 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
         <div>
           <h4 className="font-heading font-bold text-sm sm:text-base text-earth-900">
-            Takeaway Parcels & Custom Orders
+            Order Online for Doorstep Delivery
           </h4>
           <p className="text-earth-600 text-xs mt-0.5">
-            Call our counter at <strong>9967997522</strong> for instant takeaway packing, or order on Swiggy & Zomato.
+            Order directly on Swiggy & Zomato for fast doorstep delivery.
+          </p>
+          <p className="text-[11px] text-earth-500 mt-1">
+            * {PRICING_DEMAND_NOTE}
           </p>
         </div>
         <div className="flex items-center gap-2 shrink-0 flex-wrap justify-center sm:justify-start">
           <a
-            href="tel:9967997522"
-            className="px-3.5 py-2 rounded-lg bg-leaf-600 hover:bg-leaf-700 text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-2xs"
-          >
-            <Phone className="w-3.5 h-3.5" />
-            <span>Call 9967997522</span>
-          </a>
-          <a
-            href="https://www.swiggy.com"
+            href={DELIVERY_LINKS.swiggy}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-3.5 py-2 rounded-lg bg-[#FC8019] hover:bg-[#E57313] text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-2xs"
+            className="px-4 py-2.5 rounded-lg bg-[#FC8019] hover:bg-[#E57313] text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-2xs"
+            title="Order Mahabaleshwar Juice on Swiggy"
           >
             <SwiggyEmblem className="w-3.5 h-3.5 fill-white text-white" />
-            <span>Swiggy</span>
+            <span>Order on Swiggy</span>
           </a>
           <a
-            href="https://www.zomato.com"
+            href={DELIVERY_LINKS.zomato}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-3.5 py-2 rounded-lg bg-[#E23744] hover:bg-[#C92532] text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-2xs"
+            className="px-4 py-2.5 rounded-lg bg-[#E23744] hover:bg-[#C92532] text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-2xs"
+            title="Order Mahabaleshwar Juice on Zomato"
           >
-            <span>Zomato</span>
+            <span>Order on Zomato</span>
           </a>
         </div>
       </div>

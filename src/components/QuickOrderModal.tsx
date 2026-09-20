@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import type { MenuItem } from '../data/menuData';
-import { X, Phone, MessageCircle, Clock } from 'lucide-react';
+import { X, Info, Clock } from 'lucide-react';
 import { SwiggyLogo, ZomatoLogo } from './PartnerLogos';
+import { DELIVERY_LINKS, PRICING_DEMAND_NOTE } from '../data/deliveryConfig';
 
 interface QuickOrderModalProps {
   item: MenuItem | null;
@@ -54,10 +55,6 @@ export const QuickOrderModal: React.FC<QuickOrderModalProps> = ({
 
   const itemPrice = getComputedPrice();
 
-  const whatsappMessage = encodeURIComponent(
-    `Hello Mahabaleshwar Juice Center! I want to order: ${item.name} (${portion}) [₹${itemPrice}]. Please confirm availability.`
-  );
-
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-earth-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
       <div className="relative bg-white w-full max-w-[390px] rounded-2xl sm:rounded-3xl shadow-2xl border border-cream-300 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
@@ -72,7 +69,7 @@ export const QuickOrderModal: React.FC<QuickOrderModalProps> = ({
             />
             <div>
               <h3 className="font-heading font-extrabold text-sm sm:text-base leading-tight">
-                Order & Takeaway
+                Order Online
               </h3>
               <p className="text-[10px] text-white/85 font-medium leading-none mt-0.5">
                 Mahabaleshwar Juice Center
@@ -162,84 +159,58 @@ export const QuickOrderModal: React.FC<QuickOrderModalProps> = ({
             )}
           </div>
 
-          {/* Section 1: Home Delivery (Swiggy & Zomato side by side) */}
+          {/* Section: Home Delivery (Swiggy & Zomato side by side) */}
           <div className="space-y-1.5">
             <span className="text-[10px] font-bold text-earth-600 uppercase tracking-wider block">
-              Online Doorstep Delivery
+              Order Online for Doorstep Delivery
             </span>
             <div className="grid grid-cols-2 gap-2">
               {/* Swiggy Card */}
               <a
-                href="https://www.swiggy.com"
+                href={DELIVERY_LINKS.swiggy}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-col items-center justify-center p-2.5 rounded-xl bg-white hover:bg-orange-50/50 border border-cream-300 hover:border-[#FC8019] text-earth-900 transition-all shadow-2xs group cursor-pointer"
+                className="flex flex-col items-center justify-center p-3 rounded-xl bg-white hover:bg-orange-50/60 border border-cream-300 hover:border-[#FC8019] text-earth-900 transition-all shadow-2xs group cursor-pointer"
                 title="Order on Swiggy"
               >
                 <div className="h-6 flex items-center justify-center mb-1">
                   <SwiggyLogo className="h-5 w-auto" />
                 </div>
-                <span className="text-[11px] font-extrabold text-earth-900 group-hover:text-[#FC8019] transition-colors leading-tight">
-                  Swiggy
+                <span className="text-xs font-extrabold text-earth-900 group-hover:text-[#FC8019] transition-colors leading-tight">
+                  Order on Swiggy
                 </span>
-                <span className="text-[9px] text-earth-500 font-medium">
+                <span className="text-[9px] text-earth-500 font-medium mt-0.5">
                   Doorstep Delivery
                 </span>
               </a>
 
               {/* Zomato Card */}
               <a
-                href="https://www.zomato.com"
+                href={DELIVERY_LINKS.zomato}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-col items-center justify-center p-2.5 rounded-xl bg-white hover:bg-red-50/50 border border-cream-300 hover:border-[#E23744] text-earth-900 transition-all shadow-2xs group cursor-pointer"
+                className="flex flex-col items-center justify-center p-3 rounded-xl bg-white hover:bg-red-50/60 border border-cream-300 hover:border-[#E23744] text-earth-900 transition-all shadow-2xs group cursor-pointer"
                 title="Order on Zomato"
               >
                 <div className="h-6 flex items-center justify-center mb-1">
-                  <ZomatoLogo className="h-4 w-auto" />
+                  <ZomatoLogo className="h-5 w-auto" />
                 </div>
-                <span className="text-[11px] font-extrabold text-earth-900 group-hover:text-[#E23744] transition-colors leading-tight">
-                  Zomato
+                <span className="text-xs font-extrabold text-earth-900 group-hover:text-[#E23744] transition-colors leading-tight">
+                  Order on Zomato
                 </span>
-                <span className="text-[9px] text-earth-500 font-medium">
+                <span className="text-[9px] text-earth-500 font-medium mt-0.5">
                   Doorstep Delivery
                 </span>
               </a>
             </div>
           </div>
 
-          {/* Section 2: Direct Counter & Takeaway (Call & WhatsApp side by side) */}
-          <div className="space-y-1.5">
-            <span className="text-[10px] font-bold text-earth-600 uppercase tracking-wider block">
-              Direct Counter & Takeaway
-            </span>
-            <div className="grid grid-cols-2 gap-2">
-              {/* Call Counter */}
-              <a
-                href="tel:9967997522"
-                className="flex items-center justify-center gap-2 p-2.5 rounded-xl bg-[#2C8B33] hover:bg-[#237029] text-white font-bold transition-colors shadow-2xs"
-              >
-                <Phone className="w-3.5 h-3.5 fill-white shrink-0" />
-                <div className="text-left leading-tight">
-                  <span className="block text-xs font-black">Call Counter</span>
-                  <span className="block text-[10px] text-emerald-100 font-medium">9967997522</span>
-                </div>
-              </a>
-
-              {/* WhatsApp Order */}
-              <a
-                href={`https://wa.me/919967997522?text=${whatsappMessage}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 p-2.5 rounded-xl bg-[#25D366] hover:bg-[#1EBE5D] text-white font-bold transition-colors shadow-2xs"
-              >
-                <MessageCircle className="w-4 h-4 fill-white shrink-0" />
-                <div className="text-left leading-tight">
-                  <span className="block text-xs font-black">WhatsApp</span>
-                  <span className="block text-[10px] text-emerald-100 font-medium">Quick Order</span>
-                </div>
-              </a>
-            </div>
+          {/* Pricing Notice */}
+          <div className="p-2.5 rounded-xl bg-amber-50/90 border border-amber-200 flex items-start gap-2 text-[11px] text-amber-900 leading-snug">
+            <Info className="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5" />
+            <p>
+              <strong className="font-semibold">Note:</strong> {PRICING_DEMAND_NOTE}
+            </p>
           </div>
 
           {/* Timings & Freshness Note */}

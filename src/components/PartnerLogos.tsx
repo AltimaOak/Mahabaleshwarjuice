@@ -48,7 +48,7 @@ export const SwiggyLogo: React.FC<{ className?: string }> = ({ className = 'h-6 
  */
 export const ZomatoLogo: React.FC<{ className?: string }> = ({ className = 'h-6 sm:h-7 w-auto' }) => (
   <svg
-    className={className}
+    className={`shrink-0 ${className}`}
     viewBox="0 0 2500 535.29"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
