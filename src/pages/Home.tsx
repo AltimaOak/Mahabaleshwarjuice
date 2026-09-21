@@ -81,7 +81,7 @@ export const Home: React.FC = () => {
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#B91C1C] hover:bg-[#991B1B] text-white font-bold text-sm shadow-sm hover:shadow transition-all"
                 >
                   <BookOpen className="w-4 h-4" />
-                  <span>View Menu (Dine / Home)</span>
+                  <span>View Menu</span>
                 </Link>
 
                 {/* Green Button: Pre-Order / Bulk (9+) */}
