@@ -4,8 +4,11 @@ import { Phone, Clock, MapPin, Navigation, BookOpen } from 'lucide-react';
 import { SwiggyLogo, ZomatoLogo } from '../components/PartnerLogos';
 import { STORE_LOCATIONS } from '../data/storeLocations';
 import { DELIVERY_LINKS, PRICING_DEMAND_NOTE } from '../data/deliveryConfig';
+import { useBulkOrder } from '../context/BulkOrderContext';
 
 export const Home: React.FC = () => {
+  const { openBulkOrder } = useBulkOrder();
+
   return (
     <div className="space-y-8 sm:space-y-12 pb-2 sm:pb-3 overflow-hidden">
 
@@ -27,7 +30,7 @@ export const Home: React.FC = () => {
               </div>
 
               {/* Wooden Plate of Strawberries */}
-              <div className="w-56 xl:w-64 aspect-[3/4] rounded-3xl overflow-hidden shadow-natural border border-cream-200 bg-white transform -rotate-1 hover:rotate-0 transition-transform duration-300">
+              <div className="w-44 xl:w-52 aspect-[4/5] rounded-2xl overflow-hidden shadow-natural border border-cream-200 bg-white transform -rotate-1 hover:rotate-0 transition-transform duration-300">
                 <img
                   src="/images/hero_strawberries.jpg"
                   alt="Fresh Mahabaleshwar Strawberries"
@@ -71,15 +74,24 @@ export const Home: React.FC = () => {
               </p>
 
               {/* Action Buttons */}
-              <div className="flex items-center justify-center pt-2">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2 w-full max-w-md mx-auto">
                 {/* Red Button: View Menu & Order */}
                 <Link
                   to="/products"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-[#B91C1C] hover:bg-[#991B1B] text-white font-bold text-sm sm:text-base shadow-sm hover:shadow transition-all"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#B91C1C] hover:bg-[#991B1B] text-white font-bold text-sm shadow-sm hover:shadow transition-all"
                 >
                   <BookOpen className="w-4 h-4" />
-                  <span>View Menu & Order (Dine - Home)</span>
+                  <span>View Menu (Dine / Home)</span>
                 </Link>
+
+                {/* Green Button: Pre-Order / Bulk (9+) */}
+                <button
+                  type="button"
+                  onClick={() => openBulkOrder()}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#2C8B33] hover:bg-[#23732A] text-white font-bold text-sm shadow-sm hover:shadow transition-all cursor-pointer"
+                >
+                  <span>Pre-Order / Bulk (9+)</span>
+                </button>
               </div>
 
               {/* Opening Hours */}
@@ -100,7 +112,7 @@ export const Home: React.FC = () => {
               </div>
 
               {/* Tall Strawberry Shake Glass */}
-              <div className="w-56 xl:w-64 aspect-[3/4] rounded-3xl overflow-hidden shadow-natural border border-cream-200 bg-white transform rotate-1 hover:rotate-0 transition-transform duration-300">
+              <div className="w-44 xl:w-52 aspect-[4/5] rounded-2xl overflow-hidden shadow-natural border border-cream-200 bg-white transform rotate-1 hover:rotate-0 transition-transform duration-300">
                 <img
                   src="/images/hero_shake.jpg"
                   alt="Delicious Strawberry Milkshake"
@@ -246,3 +258,5 @@ export const Home: React.FC = () => {
     </div>
   );
 };
+
+export default Home;

@@ -5,8 +5,10 @@ import { SwiggyLogo, ZomatoLogo } from './PartnerLogos';
 import { InstagramIcon, FacebookIcon } from './SocialIcons';
 import { STORE_LOCATIONS } from '../data/storeLocations';
 import { DELIVERY_LINKS } from '../data/deliveryConfig';
+import { useBulkOrder } from '../context/BulkOrderContext';
 
 export const Footer: React.FC = () => {
+  const { openBulkOrder } = useBulkOrder();
   return (
     <footer className="relative bg-[#F5EEDC] border-t-2 border-cream-300 text-earth-900 pt-6 pb-4 sm:pt-7 sm:pb-4 overflow-hidden">
       
@@ -77,6 +79,15 @@ export const Footer: React.FC = () => {
                 <Link to="/products" className="hover:text-[#B91C1C] transition-colors">
                   All 180+ Menu Items
                 </Link>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => openBulkOrder()}
+                  className="hover:text-[#2C8B33] font-bold text-leaf-700 transition-colors cursor-pointer text-left"
+                >
+                  Bulk & Pre-Order (9+)
+                </button>
               </li>
               <li>
                 <Link to="/about" className="hover:text-[#B91C1C] transition-colors">

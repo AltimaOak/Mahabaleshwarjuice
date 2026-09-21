@@ -8,14 +8,16 @@ interface ProductCardProps {
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ item, onOrderClick }) => {
-  const [selectedSize, setSelectedSize] = useState<'250ml' | '350ml'>('250ml');
+  const [selectedSize, setSelectedSize] = useState<'Small' | 'Large'>('Small');
   const [withIceCream, setWithIceCream] = useState<boolean>(false);
 
-  const hasDualSize = item.price250ml !== undefined && item.price350ml !== undefined;
+  const hasDualSize = (item.priceSmall !== undefined && item.priceLarge !== undefined) || (item.price250ml !== undefined && item.price350ml !== undefined);
   
   let currentPrice = item.price || 0;
   if (hasDualSize) {
-    currentPrice = selectedSize === '250ml' ? (item.price250ml || 0) : (item.price350ml || 0);
+    currentPrice = selectedSize === 'Small' 
+      ? (item.priceSmall || item.price250ml || 0) 
+      : (item.priceLarge || item.price350ml || 0);
     if (withIceCream && item.withIceCreamPrice) {
       currentPrice += 30;
     }
@@ -116,25 +118,25 @@ export const ProductCard: React.FC<ProductCardProps> = ({ item, onOrderClick }) 
               <div className="flex items-center gap-1 bg-cream-100 p-0.5 rounded-lg border border-cream-200">
                 <button
                   type="button"
-                  onClick={() => setSelectedSize('250ml')}
+                  onClick={() => setSelectedSize('Small')}
                   className={`px-2.5 py-1 rounded font-bold text-xs transition-colors ${
-                    selectedSize === '250ml'
+                    selectedSize === 'Small'
                       ? 'bg-strawberry-600 text-white shadow-2xs'
                       : 'text-earth-700 hover:text-earth-900'
                   }`}
                 >
-                  250ml • ₹{item.price250ml}
+                  Small • ₹{item.priceSmall || item.price250ml}
                 </button>
                 <button
                   type="button"
-                  onClick={() => setSelectedSize('350ml')}
+                  onClick={() => setSelectedSize('Large')}
                   className={`px-2.5 py-1 rounded font-bold text-xs transition-colors ${
-                    selectedSize === '350ml'
+                    selectedSize === 'Large'
                       ? 'bg-strawberry-600 text-white shadow-2xs'
                       : 'text-earth-700 hover:text-earth-900'
                   }`}
                 >
-                  350ml • ₹{item.price350ml}
+                  Large • ₹{item.priceLarge || item.price350ml}
                 </button>
               </div>
             </div>

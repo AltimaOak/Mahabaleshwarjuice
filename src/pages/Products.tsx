@@ -7,6 +7,7 @@ import { QuickOrderModal } from '../components/QuickOrderModal';
 import { Info } from 'lucide-react';
 import { SwiggyEmblem } from '../components/PartnerLogos';
 import { DELIVERY_LINKS, PRICING_DEMAND_NOTE } from '../data/deliveryConfig';
+import { useBulkOrder } from '../context/BulkOrderContext';
 
 interface CategoryNotice {
   title: string;
@@ -24,7 +25,7 @@ const CATEGORY_NOTICES: Partial<Record<CategoryId, CategoryNotice>> = {
     note: 'Mastani = Milkshake + Icecream + Dryfruit.',
   },
   'smoothies': {
-    title: 'Smoothie Note (350ml):',
+    title: 'Smoothie Note:',
     note: 'Fruit + Ice-cream + Milk + Sugar blended thick. Served with some cream on topping.',
   },
   'special-falooda': {
@@ -32,7 +33,7 @@ const CATEGORY_NOTICES: Partial<Record<CategoryId, CategoryNotice>> = {
     note: 'No Real Fruit & Noodles added in Falooda. Contains Sabja + Malai + Jelly Cubes + Syrup & Ice Cream.',
   },
   'ice-cream-delight': {
-    title: 'Contains (350ml):',
+    title: 'Contains:',
     note: 'Fresh Fruits (seasonal) + Fresh Cream + Muesli + Ice Cream + Crush + Jelly Cubes.',
   },
   'fruit-punch': {
@@ -41,23 +42,23 @@ const CATEGORY_NOTICES: Partial<Record<CategoryId, CategoryNotice>> = {
   },
   'fruit-milkshakes': {
     title: 'Portion Info:',
-    note: 'Milk + Fruit + Sugar + Ice blended together. Available in 250ml & 350ml (With Ice-Cream).',
+    note: 'Milk + Fruit + Sugar + Ice blended together. Available in Small & Large.',
   },
   'chocolate-milkshakes': {
     title: 'Portion Info:',
-    note: 'Prepared fresh with ice cream. Available in 250ml & 350ml (With Ice-Cream).',
+    note: 'Prepared fresh with ice cream. Available in Small & Large.',
   },
   'fresh-fruit-juice': {
     title: 'Juice Counter Note:',
     note: 'Please mention if you want Ice or Sugar when ordering. Consume parcel within 20 mins. No masala added.',
   },
   'soda-blast': {
-    title: 'Soda Blast (350ml):',
+    title: 'Soda Blast:',
     note: 'All sodas are flavoured sodas made with fresh lemon, mint, and soda fizz.',
   },
   'desserts-shots': {
     title: 'Jamun Shots Recipe:',
-    note: 'Jamun + Lemon + Mint Leaves + Chat Masala (Rs. 160 for Two Shots, 70ml).',
+    note: 'Jamun + Lemon + Mint Leaves + Chat Masala (₹160 for Two Shots).',
   },
   'ice-cream-scoop': {
     title: 'Ice Cream Scoops:',
@@ -67,8 +68,8 @@ const CATEGORY_NOTICES: Partial<Record<CategoryId, CategoryNotice>> = {
 
 // Genuine notes from the physical menu for specific items
 const ITEM_NOTES: Record<string, string> = {
-  'sitafal-cream': 'Made in fresh cream only (No ice cream added) • 300ml',
-  'jamun-shots': 'Jamun + Lemon + Mint Leaves + Chat Masala • Two Shots (70ml)',
+  'sitafal-cream': 'Made in fresh cream only (No ice cream added)',
+  'jamun-shots': 'Jamun + Lemon + Mint Leaves + Chat Masala • Two Shots',
   'watermelon-blossom': 'Watermelon juice, watermelon pieces & vanilla ice cream',
   'muskmelon-punch': 'Served in whole muskmelon with fruit pieces & dry fruits',
   'muskmelon-punch-kulfi': 'Served in whole muskmelon with kulfi & dry fruits',
@@ -80,6 +81,7 @@ const ITEM_NOTES: Record<string, string> = {
 };
 
 export const Products: React.FC = () => {
+  const { openBulkOrder } = useBulkOrder();
   const [searchParams] = useSearchParams();
   const initialCat = (searchParams.get('category') as CategoryId) || 'all';
 
@@ -126,7 +128,7 @@ export const Products: React.FC = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-6">
-      
+
       {/* Search & Category Filter */}
       <CategoryFilter
         activeCategory={activeCategory}
@@ -134,6 +136,23 @@ export const Products: React.FC = () => {
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
       />
+
+      {/* Pre-Order & Bulk Order (9+ Items) Clean Notice */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-xl bg-leaf-50 border border-leaf-200 text-xs">
+        <div className="text-leaf-950">
+          <span className="font-bold">Party / Bulk Orders (9+ items):</span>{' '}
+          <span className="text-leaf-800">
+            Pre-order directly with your nearest branch for advance preparation and scheduled pickup.
+          </span>
+        </div>
+        <button
+          type="button"
+          onClick={() => openBulkOrder()}
+          className="self-start sm:self-auto px-3.5 py-1.5 rounded-lg bg-[#2C8B33] hover:bg-[#23732A] text-white font-bold text-xs shadow-2xs whitespace-nowrap transition-colors cursor-pointer"
+        >
+          Pre-Order / Bulk
+        </button>
+      </div>
 
       {/* Authentic Menu Board Notice Banner (Only shown if available for current category) */}
       {currentNotice && (
@@ -157,6 +176,127 @@ export const Products: React.FC = () => {
         </div>
       </div>
 
+      {/* ========================================================
+          FLAGSHIP SHOWCASE: SPL STRAWBERRY CREAM (FIRST LARGE, THEN SMALL)
+          ======================================================== */}
+      {(activeCategory === 'all' || activeCategory === 'speciality-dessert' || searchQuery.toLowerCase().includes('straw') || searchQuery.toLowerCase().includes('cream')) && (
+        <div className="bg-white rounded-2xl border border-strawberry-300 p-4 sm:p-5 shadow-xs space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-cream-200 pb-3">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="px-2.5 py-0.5 rounded-full bg-strawberry-100 text-strawberry-800 text-[11px] font-extrabold uppercase tracking-wide">
+                  Signature Speciality #1 ⭐
+                </span>
+                <span className="text-xs text-leaf-800 font-bold hidden sm:inline">
+                  स्पेशल स्ट्रॉबेरी क्रीम
+                </span>
+              </div>
+              <h2 className="font-heading font-black text-lg sm:text-xl text-earth-900 mt-1">
+                Spl Strawberry Cream
+              </h2>
+              <p className="text-xs sm:text-sm text-earth-600">
+                Fresh Mahabaleshwar strawberries layered with rich dairy cream, vanilla ice cream, and strawberry crush.
+              </p>
+            </div>
+            <div className="text-left sm:text-right shrink-0">
+              <span className="text-[11px] text-earth-500 font-semibold block">Serving Sizes:</span>
+              <span className="text-xs font-black text-earth-900">
+                1st: <strong className="text-strawberry-700">Large (₹380)</strong> • 2nd: <strong className="text-earth-800">Small (₹190)</strong>
+              </span>
+            </div>
+          </div>
+
+          {/* 2 Cards: First is Large, then Small */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+            
+            {/* 1. FIRST: LARGE PORTION */}
+            <div className="bg-cream-50/90 hover:bg-white rounded-xl border border-strawberry-200 hover:border-strawberry-400 p-3 sm:p-3.5 flex flex-row items-center gap-3.5 transition-all shadow-2xs hover:shadow-xs group">
+              {/* Small & Attractive Photo - Whole Image Visible */}
+              <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden border border-strawberry-200 bg-white shrink-0 shadow-2xs flex items-center justify-center p-1">
+                <img
+                  src="/images/strawberry_cream_large.jpg"
+                  alt="Spl Strawberry Cream - Large Portion"
+                  className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-xs"
+                />
+                <span className="absolute top-1.5 left-1.5 bg-[#B91C1C] text-white text-[10px] font-black px-1.5 py-0.5 rounded shadow-xs leading-none z-10">
+                  1. Large
+                </span>
+              </div>
+
+              {/* Details & Button */}
+              <div className="flex-1 min-w-0 flex flex-col justify-between self-stretch py-0.5">
+                <div>
+                  <div className="flex items-baseline justify-between gap-1">
+                    <h3 className="font-heading font-bold text-sm sm:text-base text-earth-900 leading-snug">
+                      Large Portion
+                    </h3>
+                    <span className="text-base font-black text-[#B91C1C] shrink-0">₹380</span>
+                  </div>
+                  <span className="text-[10px] text-strawberry-700 font-semibold block">Sundae Glass Serving</span>
+                  <p className="text-[11px] text-earth-600 line-clamp-2 leading-relaxed mt-0.5">
+                    Tall glass loaded with strawberries, dairy cream, ice cream & syrup.
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    const strawberryItem = MENU_ITEMS.find((i) => i.id === 'spl-strawberry-cream');
+                    if (strawberryItem) handleOrder(strawberryItem, 'Large');
+                  }}
+                  className="mt-2 w-full py-1.5 px-3 rounded-lg bg-strawberry-600 hover:bg-strawberry-700 text-white font-bold text-xs shadow-2xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                >
+                  <span>Order Large (₹380)</span>
+                </button>
+              </div>
+            </div>
+
+            {/* 2. THEN: SMALL PORTION */}
+            <div className="bg-cream-50/90 hover:bg-white rounded-xl border border-cream-300 hover:border-cream-400 p-3 sm:p-3.5 flex flex-row items-center gap-3.5 transition-all shadow-2xs hover:shadow-xs group">
+              {/* Small & Attractive Photo - Whole Image Visible */}
+              <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden border border-cream-300 bg-white shrink-0 shadow-2xs flex items-center justify-center p-1">
+                <img
+                  src="/images/strawberry_cream_small.jpg"
+                  alt="Spl Strawberry Cream - Small Portion"
+                  className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-xs"
+                />
+                <span className="absolute top-1.5 left-1.5 bg-earth-800 text-white text-[10px] font-black px-1.5 py-0.5 rounded shadow-xs leading-none z-10">
+                  2. Small
+                </span>
+              </div>
+
+              {/* Details & Button */}
+              <div className="flex-1 min-w-0 flex flex-col justify-between self-stretch py-0.5">
+                <div>
+                  <div className="flex items-baseline justify-between gap-1">
+                    <h3 className="font-heading font-bold text-sm sm:text-base text-earth-900 leading-snug">
+                      Small Portion
+                    </h3>
+                    <span className="text-base font-black text-earth-900 shrink-0">₹190</span>
+                  </div>
+                  <span className="text-[10px] text-earth-600 font-semibold block">Classic Cup Serving</span>
+                  <p className="text-[11px] text-earth-600 line-clamp-2 leading-relaxed mt-0.5">
+                    Classic cup packed with fresh strawberries folded into pure dairy cream.
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    const strawberryItem = MENU_ITEMS.find((i) => i.id === 'spl-strawberry-cream');
+                    if (strawberryItem) handleOrder(strawberryItem, 'Small');
+                  }}
+                  className="mt-2 w-full py-1.5 px-3 rounded-lg bg-earth-800 hover:bg-earth-900 text-white font-bold text-xs shadow-2xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                >
+                  <span>Order Small (₹190)</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
+
       {/* Empty State */}
       {filteredItems.length === 0 ? (
         <div className="text-center py-12 bg-white rounded-xl border border-cream-300 p-6 space-y-3">
@@ -179,7 +319,7 @@ export const Products: React.FC = () => {
         </div>
       ) : (
         <div className="bg-white rounded-xl border border-cream-300 shadow-2xs overflow-hidden">
-          
+
           {/* Outlet Menu Header Bar */}
           <div className="bg-cream-100 px-4 sm:px-6 py-3 border-b border-cream-200 flex items-center justify-between">
             <div>
@@ -197,14 +337,12 @@ export const Products: React.FC = () => {
               ======================================================== */}
           <div className="block md:hidden divide-y divide-cream-200">
             {filteredItems.map((item) => {
-              const isMilkshake =
-                item.category === 'fruit-milkshakes' || item.category === 'chocolate-milkshakes';
               const hasDualSize = item.priceSmall !== undefined && item.priceLarge !== undefined;
               const specialNote = ITEM_NOTES[item.id];
 
               return (
                 <div key={`mob-${item.id}`} className="p-3.5 space-y-2 hover:bg-cream-50/50 transition-colors">
-                  
+
                   {/* Name + Marathi + Category Tag */}
                   <div className="flex items-start justify-between gap-2">
                     <div>
@@ -233,35 +371,83 @@ export const Products: React.FC = () => {
                   {/* Pricing Actions */}
                   {hasDualSize ? (
                     <div className="pt-1.5 border-t border-cream-200 space-y-1.5">
-                      <div className="grid grid-cols-2 gap-2">
-                        {/* Small / 250ml */}
-                        <button
-                          onClick={() => handleOrder(item, isMilkshake ? '250ml' : 'Small')}
-                          type="button"
-                          className="flex items-center justify-between p-2 rounded-lg bg-cream-100 hover:bg-cream-200 border border-cream-300 transition-colors text-left"
-                        >
-                          <span className="text-xs text-earth-700 font-medium">
-                            {isMilkshake ? '250ml' : 'Small'}
-                          </span>
-                          <span className="text-xs font-black text-earth-900">
-                            ₹{item.priceSmall}
-                          </span>
-                        </button>
+                      {item.id === 'spl-strawberry-cream' ? (
+                        /* FIRST LARGE THEN SMALL with preview images */
+                        <div className="grid grid-cols-2 gap-2">
+                          {/* 1. Large */}
+                          <button
+                            onClick={() => handleOrder(item, 'Large')}
+                            type="button"
+                            className="flex items-center gap-2 p-2 rounded-lg bg-strawberry-50 hover:bg-strawberry-100 border border-strawberry-300 transition-colors text-left"
+                          >
+                            <img
+                              src="/images/strawberry_cream_large.jpg"
+                              alt="Large"
+                              className="w-10 h-10 rounded-lg object-contain bg-white p-0.5 border border-cream-300 shrink-0"
+                            />
+                            <div className="min-w-0">
+                              <span className="text-[11px] text-strawberry-900 font-bold block leading-tight">
+                                1. Large
+                              </span>
+                              <span className="text-xs font-black text-[#B91C1C]">
+                                ₹{item.priceLarge}
+                              </span>
+                            </div>
+                          </button>
 
-                        {/* Large / 350ml */}
-                        <button
-                          onClick={() => handleOrder(item, isMilkshake ? '350ml (With Ice-Cream)' : 'Large')}
-                          type="button"
-                          className="flex items-center justify-between p-2 rounded-lg bg-cream-100 hover:bg-cream-200 border border-cream-300 transition-colors text-left"
-                        >
-                          <span className="text-xs text-earth-700 font-medium">
-                            {isMilkshake ? '350ml (Ice Cream)' : 'Large'}
-                          </span>
-                          <span className="text-xs font-black text-earth-900">
-                            ₹{item.priceLarge}
-                          </span>
-                        </button>
-                      </div>
+                          {/* 2. Small */}
+                          <button
+                            onClick={() => handleOrder(item, 'Small')}
+                            type="button"
+                            className="flex items-center gap-2 p-2 rounded-lg bg-cream-100 hover:bg-cream-200 border border-cream-300 transition-colors text-left"
+                          >
+                            <img
+                              src="/images/strawberry_cream_small.jpg"
+                              alt="Small"
+                              className="w-10 h-10 rounded-lg object-contain bg-white p-0.5 border border-cream-300 shrink-0"
+                            />
+                            <div className="min-w-0">
+                              <span className="text-[11px] text-earth-800 font-bold block leading-tight">
+                                2. Small
+                              </span>
+                              <span className="text-xs font-black text-earth-900">
+                                ₹{item.priceSmall}
+                              </span>
+                            </div>
+                          </button>
+                        </div>
+                      ) : (
+                        /* Regular dual-size items: Large first then Small for consistency */
+                        <div className="grid grid-cols-2 gap-2">
+                          {/* Large */}
+                          <button
+                            onClick={() => handleOrder(item, 'Large')}
+                            type="button"
+                            className="flex items-center justify-between p-2 rounded-lg bg-cream-100 hover:bg-cream-200 border border-cream-300 transition-colors text-left"
+                          >
+                            <span className="text-xs text-earth-700 font-semibold">
+                              Large
+                            </span>
+                            <span className="text-xs font-black text-earth-900">
+                              ₹{item.priceLarge || item.price350ml}
+                            </span>
+                          </button>
+
+                          {/* Small */}
+                          <button
+                            onClick={() => handleOrder(item, 'Small')}
+                            type="button"
+                            className="flex items-center justify-between p-2 rounded-lg bg-cream-100 hover:bg-cream-200 border border-cream-300 transition-colors text-left"
+                          >
+                            <span className="text-xs text-earth-700 font-semibold">
+                              Small
+                            </span>
+                            <span className="text-xs font-black text-earth-900">
+                              ₹{item.priceSmall || item.price250ml}
+                            </span>
+                          </button>
+                        </div>
+                      )}
                     </div>
                   ) : (
                     /* Single-Price Item */
@@ -301,34 +487,48 @@ export const Products: React.FC = () => {
                 <tr>
                   <th scope="col" className="px-5 py-3">Item Name</th>
                   <th scope="col" className="px-4 py-3">Category</th>
-                  <th scope="col" className="px-4 py-3 text-right">Small / 250ml</th>
-                  <th scope="col" className="px-4 py-3 text-right">Large / 350ml</th>
+                  <th scope="col" className="px-4 py-3 text-right">Large</th>
+                  <th scope="col" className="px-4 py-3 text-right">Small</th>
                   <th scope="col" className="px-4 py-3 text-center">Serving / Note</th>
                   <th scope="col" className="px-5 py-3 text-center">Order</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-cream-200">
                 {filteredItems.map((item) => {
-                  const isMilkshake =
-                    item.category === 'fruit-milkshakes' || item.category === 'chocolate-milkshakes';
                   const hasDualSize = item.priceSmall !== undefined && item.priceLarge !== undefined;
                   const specialNote = ITEM_NOTES[item.id];
 
                   return (
                     <tr key={`desk-${item.id}`} className="hover:bg-cream-50 transition-colors">
                       <td className="px-5 py-3 text-earth-900">
-                        <div>
-                          <span className="font-bold text-earth-900">{item.name}</span>
-                          {item.marathiName && (
-                            <span className="block text-xs text-leaf-700 font-medium">
-                              {item.marathiName}
-                            </span>
+                        <div className="flex items-center gap-3">
+                          {item.imageLarge && (
+                            <img
+                              src={item.imageLarge}
+                              alt={item.name}
+                              className="w-11 h-11 rounded-xl object-contain bg-white p-0.5 border border-cream-300 shrink-0 shadow-2xs"
+                            />
                           )}
-                          {specialNote && (
-                            <span className="block text-xs text-earth-500 font-normal mt-0.5">
-                              {specialNote}
-                            </span>
-                          )}
+                          <div>
+                            <div className="flex items-center gap-1.5">
+                              <span className="font-bold text-earth-900">{item.name}</span>
+                              {item.tag && (
+                                <span className="text-[10px] font-extrabold text-strawberry-700 bg-strawberry-50 px-1.5 py-0.2 rounded border border-strawberry-200">
+                                  {item.tag}
+                                </span>
+                              )}
+                            </div>
+                            {item.marathiName && (
+                              <span className="block text-xs text-leaf-700 font-medium">
+                                {item.marathiName}
+                              </span>
+                            )}
+                            {specialNote && (
+                              <span className="block text-xs text-earth-500 font-normal mt-0.5">
+                                {specialNote}
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </td>
 
@@ -338,15 +538,40 @@ export const Products: React.FC = () => {
                         </span>
                       </td>
 
-                      {/* Small / 250ml or Single Rate */}
-                      <td className="px-4 py-3 text-right font-extrabold text-earth-900 whitespace-nowrap">
-                        ₹{item.priceSmall || item.price250ml || item.price}
-                      </td>
-
-                      {/* Large / 350ml */}
+                      {/* Large */}
                       <td className="px-4 py-3 text-right font-extrabold text-earth-900 whitespace-nowrap">
                         {item.priceLarge || item.price350ml ? (
-                          `₹${item.priceLarge || item.price350ml}`
+                          <button
+                            type="button"
+                            onClick={() => handleOrder(item, 'Large')}
+                            className="hover:text-strawberry-700 hover:underline cursor-pointer"
+                            title="Click to Order Large"
+                          >
+                            ₹{item.priceLarge || item.price350ml}
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => handleOrder(item, item.portionNote)}
+                            className="hover:text-strawberry-700 hover:underline cursor-pointer"
+                            title="Click to Order"
+                          >
+                            ₹{item.price || item.priceSmall || item.price250ml}
+                          </button>
+                        )}
+                      </td>
+
+                      {/* Small */}
+                      <td className="px-4 py-3 text-right font-extrabold text-earth-900 whitespace-nowrap">
+                        {hasDualSize ? (
+                          <button
+                            type="button"
+                            onClick={() => handleOrder(item, 'Small')}
+                            className="hover:text-strawberry-700 hover:underline cursor-pointer"
+                            title="Click to Order Small"
+                          >
+                            ₹{item.priceSmall || item.price250ml}
+                          </button>
                         ) : (
                           <span className="text-earth-400 font-normal">—</span>
                         )}
@@ -355,7 +580,7 @@ export const Products: React.FC = () => {
                       {/* Serving / Note */}
                       <td className="px-4 py-3 text-center text-xs whitespace-nowrap text-earth-600">
                         {hasDualSize ? (
-                          <span>{isMilkshake ? '250ml & 350ml (Ice Cream)' : 'Small & Large'}</span>
+                          <span className="font-semibold text-earth-800">Large & Small</span>
                         ) : (
                           <span className="text-leaf-800 bg-leaf-50 px-2 py-0.5 rounded border border-leaf-200 font-medium">
                             {item.portionNote || 'Standard'}
@@ -365,13 +590,34 @@ export const Products: React.FC = () => {
 
                       {/* Order Button */}
                       <td className="px-5 py-3 text-center whitespace-nowrap">
-                        <button
-                          onClick={() => handleOrder(item)}
-                          type="button"
-                          className="px-3 py-1 rounded-md bg-strawberry-600 hover:bg-strawberry-700 text-white font-bold text-xs transition-colors"
-                        >
-                          Order
-                        </button>
+                        {hasDualSize ? (
+                          <div className="flex items-center justify-center gap-1.5">
+                            <button
+                              onClick={() => handleOrder(item, 'Large')}
+                              type="button"
+                              className="px-2.5 py-1 rounded-md bg-[#B91C1C] hover:bg-[#991B1B] text-white font-bold text-xs shadow-2xs transition-colors cursor-pointer"
+                              title="Order Large"
+                            >
+                              Large
+                            </button>
+                            <button
+                              onClick={() => handleOrder(item, 'Small')}
+                              type="button"
+                              className="px-2.5 py-1 rounded-md bg-earth-800 hover:bg-earth-900 text-white font-bold text-xs shadow-2xs transition-colors cursor-pointer"
+                              title="Order Small"
+                            >
+                              Small
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            onClick={() => handleOrder(item, item.portionNote)}
+                            type="button"
+                            className="px-3.5 py-1 rounded-md bg-[#B91C1C] hover:bg-[#991B1B] text-white font-bold text-xs shadow-2xs transition-colors cursor-pointer"
+                          >
+                            Order
+                          </button>
+                        )}
                       </td>
                     </tr>
                   );
