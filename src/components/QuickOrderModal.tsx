@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import type { MenuItem } from '../data/menuData';
-import { X, Info, Clock } from 'lucide-react';
+import { X, Info, Clock, MapPin } from 'lucide-react';
 import { SwiggyLogo, ZomatoLogo } from './PartnerLogos';
-import { DELIVERY_LINKS, PRICING_DEMAND_NOTE } from '../data/deliveryConfig';
+import { STORE_LOCATIONS } from '../data/storeLocations';
+import { PRICING_DEMAND_NOTE } from '../data/deliveryConfig';
 
 interface QuickOrderModalProps {
   item: MenuItem | null;
@@ -23,6 +24,11 @@ export const QuickOrderModal: React.FC<QuickOrderModalProps> = ({
 
   // Active portion choice
   const [portion, setPortion] = useState<string>('');
+  // Selected Branch for Delivery
+  const [selectedBranchId, setSelectedBranchId] = useState<string>('thane-vasant-vihar');
+
+  const selectedBranch =
+    STORE_LOCATIONS.find((store) => store.id === selectedBranchId) || STORE_LOCATIONS[1];
 
   useEffect(() => {
     if (selectedSizeNote) {
@@ -159,19 +165,49 @@ export const QuickOrderModal: React.FC<QuickOrderModalProps> = ({
             )}
           </div>
 
+          {/* Section: Select Nearest Branch */}
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-bold text-earth-600 uppercase tracking-wider block">
+                Select Branch
+              </span>
+              <span className="text-[10px] font-semibold text-leaf-700 flex items-center gap-0.5">
+                <MapPin className="w-3 h-3 text-[#B91C1C]" />
+                {selectedBranch.city}
+              </span>
+            </div>
+            
+            <div className="grid grid-cols-3 gap-1.5">
+              {STORE_LOCATIONS.map((branch) => (
+                <button
+                  key={branch.id}
+                  type="button"
+                  onClick={() => setSelectedBranchId(branch.id)}
+                  className={`py-1.5 px-1.5 rounded-xl text-[11px] font-bold transition-all border text-center leading-tight cursor-pointer ${
+                    selectedBranchId === branch.id
+                      ? 'bg-[#B91C1C] text-white border-[#B91C1C] shadow-2xs'
+                      : 'bg-cream-50 text-earth-800 border-cream-300 hover:bg-cream-100'
+                  }`}
+                >
+                  {branch.name.split(' ')[0]}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Section: Home Delivery (Swiggy & Zomato side by side) */}
           <div className="space-y-1.5">
             <span className="text-[10px] font-bold text-earth-600 uppercase tracking-wider block">
-              Order Online for Doorstep Delivery
+              Order Online ({selectedBranch.name.split(' ')[0]} Outlet)
             </span>
             <div className="grid grid-cols-2 gap-2">
               {/* Swiggy Card */}
               <a
-                href={DELIVERY_LINKS.swiggy}
+                href={selectedBranch.swiggyUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex flex-col items-center justify-center p-3 rounded-xl bg-white hover:bg-orange-50/60 border border-cream-300 hover:border-[#FC8019] text-earth-900 transition-all shadow-2xs group cursor-pointer"
-                title="Order on Swiggy"
+                title={`Order on Swiggy - ${selectedBranch.name}`}
               >
                 <div className="h-6 flex items-center justify-center mb-1">
                   <SwiggyLogo className="h-5 w-auto" />
@@ -180,17 +216,17 @@ export const QuickOrderModal: React.FC<QuickOrderModalProps> = ({
                   Order on Swiggy
                 </span>
                 <span className="text-[9px] text-earth-500 font-medium mt-0.5">
-                  Doorstep Delivery
+                  {selectedBranch.name.split(' ')[0]} Branch
                 </span>
               </a>
 
               {/* Zomato Card */}
               <a
-                href={DELIVERY_LINKS.zomato}
+                href={selectedBranch.zomatoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex flex-col items-center justify-center p-3 rounded-xl bg-white hover:bg-red-50/60 border border-cream-300 hover:border-[#E23744] text-earth-900 transition-all shadow-2xs group cursor-pointer"
-                title="Order on Zomato"
+                title={`Order on Zomato - ${selectedBranch.name}`}
               >
                 <div className="h-6 flex items-center justify-center mb-1">
                   <ZomatoLogo className="h-5 w-auto" />
@@ -199,7 +235,7 @@ export const QuickOrderModal: React.FC<QuickOrderModalProps> = ({
                   Order on Zomato
                 </span>
                 <span className="text-[9px] text-earth-500 font-medium mt-0.5">
-                  Doorstep Delivery
+                  {selectedBranch.name.split(' ')[0]} Branch
                 </span>
               </a>
             </div>

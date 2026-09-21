@@ -6,6 +6,7 @@ import { FeedbackModal } from './components/FeedbackModal';
 import { Home } from './pages/Home';
 import { Products } from './pages/Products';
 import { About } from './pages/About';
+import { Gallery } from './pages/Gallery';
 
 // Scroll to top on route navigation
 const ScrollToTop: React.FC = () => {
@@ -27,7 +28,7 @@ export function App() {
         {/* Top Announcement Bar */}
         <div className="bg-[#B91C1C] text-white text-[11px] sm:text-xs font-semibold py-1.5 px-4 text-center tracking-wide">
           <div className="max-w-7xl mx-auto flex items-center justify-center gap-2">
-            <span>Fresh Mahabaleshwar ka! Chilled & Delicious Juices • Milkshakes • Icecream • Order Now!</span>
+            <span>Fresh Mahabaleshwar ka! Chilled &amp; Delicious Juices • Milkshakes • Icecream • Order Now!</span>
           </div>
         </div>
 
@@ -40,6 +41,7 @@ export function App() {
             <Route path="/" element={<Home />} />
             <Route path="/products" element={<Products />} />
             <Route path="/about" element={<About />} />
+            <Route path="/gallery" element={<Gallery />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </main>

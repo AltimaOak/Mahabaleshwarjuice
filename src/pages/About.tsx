@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Phone, MapPin, Navigation, Clock, ShoppingBag } from 'lucide-react';
 import { STORE_LOCATIONS } from '../data/storeLocations';
+import { SwiggyLogo, ZomatoLogo } from '../components/PartnerLogos';
 
 export const About: React.FC = () => {
   return (
@@ -165,7 +166,36 @@ export const About: React.FC = () => {
                 </div>
               </div>
 
-              <div className="pt-2 flex items-center gap-2">
+              {/* Delivery Links */}
+              <div className="pt-2 border-t border-cream-200/80 space-y-1.5">
+                <span className="text-[10px] font-bold text-earth-600 uppercase tracking-wider block">
+                  Order Direct from Branch
+                </span>
+                <div className="grid grid-cols-2 gap-2">
+                  <a
+                    href={store.swiggyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg bg-white hover:bg-orange-50 border border-cream-300 hover:border-[#FC8019] text-[#FC8019] font-extrabold text-xs transition-colors shadow-2xs"
+                    title={`Order from ${store.name} on Swiggy`}
+                  >
+                    <SwiggyLogo className="h-3.5 w-auto" />
+                    <span>Swiggy</span>
+                  </a>
+                  <a
+                    href={store.zomatoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg bg-white hover:bg-red-50 border border-cream-300 hover:border-[#E23744] text-[#E23744] font-extrabold text-xs transition-colors shadow-2xs"
+                    title={`Order from ${store.name} on Zomato`}
+                  >
+                    <ZomatoLogo className="h-3.5 w-auto" />
+                    <span>Zomato</span>
+                  </a>
+                </div>
+              </div>
+
+              <div className="pt-1 flex items-center gap-2">
                 <a
                   href={store.mapsUrl}
                   target="_blank"

@@ -218,20 +218,49 @@ export const Home: React.FC = () => {
                 </div>
               </div>
 
+              {/* Delivery Buttons for this specific Outlet */}
+              <div className="pt-2 border-t border-cream-200/80 space-y-2">
+                <span className="text-[10px] font-bold text-earth-600 uppercase tracking-wider block">
+                  Order Direct from this Branch
+                </span>
+                <div className="grid grid-cols-2 gap-2">
+                  <a
+                    href={store.swiggyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-1.5 py-2 px-2 rounded-xl bg-white hover:bg-orange-50/80 border border-cream-300 hover:border-[#FC8019] text-[#FC8019] font-extrabold text-xs transition-all shadow-2xs"
+                    title={`Order from ${store.name} on Swiggy`}
+                  >
+                    <SwiggyLogo className="h-4 w-auto" />
+                    <span>Swiggy</span>
+                  </a>
+                  <a
+                    href={store.zomatoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-1.5 py-2 px-2 rounded-xl bg-white hover:bg-red-50/80 border border-cream-300 hover:border-[#E23744] text-[#E23744] font-extrabold text-xs transition-all shadow-2xs"
+                    title={`Order from ${store.name} on Zomato`}
+                  >
+                    <ZomatoLogo className="h-3.5 w-auto" />
+                    <span>Zomato</span>
+                  </a>
+                </div>
+              </div>
+
               {/* Action Buttons: Dark Google Maps + Green Call Phone */}
-              <div className="pt-2 flex items-center gap-2">
+              <div className="pt-1 flex items-center gap-2">
                 <a
                   href={store.mapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-lg bg-[#221A15] hover:bg-[#15100D] text-white font-bold text-xs shadow-2xs transition-colors"
+                  className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-[#221A15] hover:bg-[#15100D] text-white font-bold text-xs shadow-2xs transition-colors"
                 >
                   <Navigation className="w-3.5 h-3.5" />
                   <span>Google Maps</span>
                 </a>
                 <a
                   href={`tel:${store.phone}`}
-                  className="inline-flex items-center justify-center p-2.5 rounded-lg border border-[#2C8B33] text-[#2C8B33] hover:bg-leaf-50 transition-colors"
+                  className="inline-flex items-center justify-center p-2.5 rounded-xl border border-[#2C8B33] text-[#2C8B33] hover:bg-leaf-50 transition-colors"
                   title={`Call ${store.name}`}
                   aria-label={`Call ${store.name}`}
                 >

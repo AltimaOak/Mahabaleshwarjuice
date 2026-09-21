@@ -9,6 +9,7 @@ export const Navbar: React.FC = () => {
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Our Products', path: '/products' },
+    { name: 'Gallery', path: '/gallery' },
     { name: 'About Us', path: '/about' },
   ];
 
@@ -22,12 +23,12 @@ export const Navbar: React.FC = () => {
     <header className="sticky top-0 z-50 bg-[#FAF6EE]/95 backdrop-blur-md border-b border-cream-200/80 transition-all duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-18 sm:h-20">
-          
+
           {/* Brand Logo & Name */}
           <Link to="/" className="flex items-center gap-2.5 group shrink-0">
-            <img 
-              src="/images/logo.png" 
-              alt="Mahabaleshwar Juice Center Mascot Logo" 
+            <img
+              src="/images/logo.png"
+              alt="Mahabaleshwar Juice Center Mascot Logo"
               className="h-12 sm:h-14 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
             />
             <div className="flex flex-col">
@@ -48,11 +49,10 @@ export const Navbar: React.FC = () => {
                 <Link
                   key={link.name}
                   to={link.path}
-                  className={`px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
-                    active
+                  className={`px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold transition-all ${active
                       ? 'bg-[#B91C1C] text-white shadow-2xs'
                       : 'text-earth-800 hover:text-[#B91C1C] hover:bg-cream-100'
-                  }`}
+                    }`}
                 >
                   {link.name}
                 </Link>
@@ -97,11 +97,10 @@ export const Navbar: React.FC = () => {
               key={link.name}
               to={link.path}
               onClick={() => setIsOpen(false)}
-              className={`block px-3 py-2 rounded-lg text-sm font-bold ${
-                isActive(link.path)
+              className={`block px-3 py-2 rounded-lg text-sm font-bold ${isActive(link.path)
                   ? 'bg-[#B91C1C] text-white'
                   : 'text-earth-800 hover:bg-cream-100'
-              }`}
+                }`}
             >
               {link.name}
             </Link>
