@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import type { MenuItem } from '../data/menuData';
 import { X, Info, Phone, MessageCircle, Plus, Minus, MapPin, Check, Sparkles } from 'lucide-react';
 import { SwiggyLogo, ZomatoLogo } from './PartnerLogos';
-import { DELIVERY_LINKS, PRICING_DEMAND_NOTE } from '../data/deliveryConfig';
 import { STORE_LOCATIONS } from '../data/storeLocations';
+import { PRICING_DEMAND_NOTE } from '../data/deliveryConfig';
 import { useBulkOrder } from '../context/BulkOrderContext';
 
 interface QuickOrderModalProps {
@@ -44,9 +44,9 @@ export const QuickOrderModal: React.FC<QuickOrderModalProps> = ({
 
   if (!isOpen || !item) return null;
 
-  // Selected branch object
+  // Selected branch object with branch-specific delivery URLs
   const selectedBranch =
-    STORE_LOCATIONS.find((b) => b.id === selectedBranchId) || STORE_LOCATIONS[1];
+    STORE_LOCATIONS.find((store) => store.id === selectedBranchId) || STORE_LOCATIONS[1];
 
   // Accurate unit price computation based on chosen portion
   const getUnitPrice = (): number => {
@@ -270,30 +270,35 @@ export const QuickOrderModal: React.FC<QuickOrderModalProps> = ({
 
           </div>
 
-          {/* Outlet Branch Selection */}
+          {/* Section: Select Nearest Branch */}
           <div className="space-y-1.5">
-            <label htmlFor="modal-branch-select" className="flex items-center justify-between text-[11px] font-bold text-earth-700 uppercase tracking-wider">
-              <span className="flex items-center gap-1.5">
-                <MapPin className="w-3.5 h-3.5 text-[#B91C1C]" />
-                Select Nearest Outlet:
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-bold text-earth-600 uppercase tracking-wider block">
+                Select Outlet Branch
               </span>
-              <span className="text-[10px] text-[#2C8B33] font-bold normal-case">
-                Open Daily 11 AM - 12 AM
+              <span className="text-[10px] font-semibold text-leaf-700 flex items-center gap-0.5">
+                <MapPin className="w-3 h-3 text-[#B91C1C]" />
+                {selectedBranch.city} • Open 11 AM - 12 AM
               </span>
-            </label>
-            <select
-              id="modal-branch-select"
-              value={selectedBranchId}
-              onChange={(e) => setSelectedBranchId(e.target.value)}
-              className="w-full bg-white border border-cream-300 rounded-xl px-3 py-2.5 text-xs font-bold text-earth-900 focus:outline-none focus:ring-2 focus:ring-[#B91C1C]/20 focus:border-[#B91C1C] cursor-pointer shadow-2xs transition-all"
-            >
-              {STORE_LOCATIONS.map((loc) => (
-                <option key={loc.id} value={loc.id}>
-                  {loc.name} • Tel: {loc.phone}
-                </option>
+            </div>
+            
+            <div className="grid grid-cols-3 gap-1.5">
+              {STORE_LOCATIONS.map((branch) => (
+                <button
+                  key={branch.id}
+                  type="button"
+                  onClick={() => setSelectedBranchId(branch.id)}
+                  className={`py-2 px-1.5 rounded-xl text-[11px] font-bold transition-all border text-center leading-tight cursor-pointer ${
+                    selectedBranchId === branch.id
+                      ? 'bg-[#B91C1C] text-white border-[#B91C1C] shadow-2xs'
+                      : 'bg-cream-50 text-earth-800 border-cream-300 hover:bg-cream-100'
+                  }`}
+                >
+                  {branch.name.split(' ')[0]}
+                </button>
               ))}
-            </select>
-            <p className="text-[11px] text-earth-500 leading-tight px-1">
+            </div>
+            <p className="text-[11px] text-earth-500 leading-tight px-1 pt-0.5">
               📍 {selectedBranch.address}
             </p>
           </div>
@@ -320,35 +325,35 @@ export const QuickOrderModal: React.FC<QuickOrderModalProps> = ({
             </a>
           </div>
 
-          {/* Doorstep Delivery Section: Swiggy & Zomato */}
+          {/* Doorstep Delivery Section: Branch-Specific Swiggy & Zomato */}
           <div className="pt-2 border-t border-cream-200 space-y-1.5">
             <span className="text-[10px] font-bold text-earth-500 uppercase tracking-wider block text-center">
-              — Or Order Doorstep Delivery via Partner Apps —
+              — Or Order Doorstep Delivery ({selectedBranch.name.split(' ')[0]} Outlet) —
             </span>
             <div className="grid grid-cols-2 gap-2">
               <a
-                href={DELIVERY_LINKS.swiggy}
+                href={selectedBranch.swiggyUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 p-2.5 rounded-xl bg-white hover:bg-orange-50/60 border border-cream-300 hover:border-[#FC8019] text-earth-900 transition-all shadow-2xs group cursor-pointer"
-                title="Order on Swiggy"
+                title={`Order on Swiggy - ${selectedBranch.name}`}
               >
                 <SwiggyLogo className="h-5 w-auto" />
                 <span className="text-xs font-bold group-hover:text-[#FC8019] transition-colors">
-                  Swiggy
+                  Swiggy ({selectedBranch.name.split(' ')[0]})
                 </span>
               </a>
 
               <a
-                href={DELIVERY_LINKS.zomato}
+                href={selectedBranch.zomatoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 p-2.5 rounded-xl bg-white hover:bg-red-50/60 border border-cream-300 hover:border-[#E23744] text-earth-900 transition-all shadow-2xs group cursor-pointer"
-                title="Order on Zomato"
+                title={`Order on Zomato - ${selectedBranch.name}`}
               >
                 <ZomatoLogo className="h-4 w-auto" />
                 <span className="text-xs font-bold group-hover:text-[#E23744] transition-colors">
-                  Zomato
+                  Zomato ({selectedBranch.name.split(' ')[0]})
                 </span>
               </a>
             </div>

@@ -81,6 +81,11 @@ export const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/gallery" className="hover:text-[#B91C1C] transition-colors">
+                  Celebrity Visit Gallery
+                </Link>
+              </li>
+              <li>
                 <button
                   type="button"
                   onClick={() => openBulkOrder()}
